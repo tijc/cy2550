@@ -90,7 +90,7 @@ def main():
         print_help()
         return
     
-    # sets the argument values
+    # sets the argument default values
     words = 4
     caps = 0
     numbers = 0
