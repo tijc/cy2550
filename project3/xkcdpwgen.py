@@ -61,17 +61,40 @@ def generate_password(words, caps, numbers, symbols):
 
     # returns the final secure password
     return password
+   
+def print_help():
+    """ prints out the help message """
+    
+    print("usage: xkcdpwgen [-h] [-w WORDS] [-c CAPS] [-n NUMBERS] [-s SYMBOLS]")
+    print("\nGenerate a secure, memorable password using the XKCD method")
+    print("\noptional arguments:")
+    print("  -h, --help            show this help message and exit")
+    print("  -w WORDS, --words WORDS")
+    print("                        include WORDS words in the password (default=4)")
+    print("  -c CAPS, --caps CAPS  capitalize the first letter of CAPS random words")
+    print("                        (default=0)")
+    print("  -n NUMBERS, --numbers NUMBERS")
+    print("                        insert NUMBERS random numbers in the password")
+    print("                        (default=0)")
+    print("  -s SYMBOLS, --symbols SYMBOLS")
+    print("                        insert SYMBOLS random symbols in the password")
+    print("                        (default=0)")
     
 def main():
     
     # takes in the arguments given by the user in the command line
     args = sys.argv[1:]
     
+    # checks if the user inputted "-h" or "--help" as an argument
+    if ("-h" in args) or ("--help" in args):
+        print_help()
+        return
+    
     # sets the argument values
     words = 4
-    caps = 2
-    numbers = 1
-    symbols = 3
+    caps = 0
+    numbers = 0
+    symbols = 0
 
     # checks for what the user inputs in the command line and updates the
     # corresponding values accordingly
