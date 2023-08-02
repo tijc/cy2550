@@ -10,6 +10,7 @@ Created on Wed Aug  2 10:10:01 2023
 import sys
 import random
 import string
+from random import randint
 
 # Function to generate a random password using the XKCD method
 def generate_password(words, caps, numbers, symbols):
@@ -34,29 +35,81 @@ def generate_password(words, caps, numbers, symbols):
     # Capitalize random words
     words_to_capitalize = random.sample(range(words), caps)
     password_words = [word.capitalize() if i in words_to_capitalize else word for i, word in enumerate(random_words)]
-    password = ''.join(password_words)
+    #password = ''.join(password_words)
 
-    if numbers:
-        for num in range(numbers):
-            random_index = random.randint(0, len(password) - 1)
+    #password_length = len(password)
+
+    # Create the concatenated string with spaces between words
+    concatenated_string = ' '.join(password_words)
+
+    # # Get all possible positions to insert numbers and symbols (at word boundaries)
+    # possible_positions = [i * 2 for i in range(words + 1)]
+
+    # # Insert numbers
+    # if numbers:
+    #     for _ in range(numbers):
+    #         random_position = random.choice(possible_positions)
+    #         random_number = random.choice(string.digits)
+    #         concatenated_string = concatenated_string[:random_position] + random_number + concatenated_string[random_position:]
+
+    # # Insert symbols
+    # if symbols:
+    #     for _ in range(symbols):
+    #         random_position = random.choice(possible_positions)
+    #         random_symbol = random.choice(string.punctuation)
+    #         concatenated_string = concatenated_string[:random_position] + random_symbol + concatenated_string[random_position:]
+
+    # Insert numbers at the beginning or end
+    for _ in range(numbers):
+        if random.choice([True, False]):
             random_number = random.choice(string.digits)
-            password = password[:random_index] + random_number + password[random_index:]
-
-    if symbols:
-        for sym in range(symbols):
-            random_index = random.randint(0, len(password) - 1)
+            concatenated_string = random_number + concatenated_string
+        else:
+            random_number = random.choice(string.digits)
+            concatenated_string = concatenated_string + random_number
+    
+    # Insert symbols at the beginning or end
+    for _ in range(symbols):
+        if random.choice([True, False]):
             random_symbol = random.choice(string.punctuation)
-            password = password[:random_index] + random_symbol + password[random_index:]
+            concatenated_string = random_symbol + concatenated_string
+        else:
+            random_symbol = random.choice(string.punctuation)
+            concatenated_string = concatenated_string + random_symbol
 
-    return password
+    return concatenated_string
+
+    #return concatenated_string.replace(" ", "")  # Remove spaces to get the final password
+    
+def insert_number_or_symbol(input_string, character):
+    # Split the input string into words
+    words = input_string.split()
+
+    # Choose a random word from the list
+    random_word_index = random.randint(0, len(words) - 1)
+    chosen_word = words[random_word_index]
+
+    # Generate a random position index within the chosen word
+    random_index = random.randint(0, len(chosen_word))
+
+    # Insert the character (number or symbol) at the chosen position
+    modified_word = chosen_word[:random_index] + character + chosen_word[random_index:]
+
+    # Replace the original word with the modified word
+    words[random_word_index] = modified_word
+
+    # Join the words back together to form the new string
+    new_string = ' '.join(words)
+
+    return new_string
 
 def main():
     
     args = sys.argv[1:]
     
-    words = 4
+    words = 2
     caps = 0
-    numbers = 0
+    numbers = 2
     symbols = 0
 
     for i in range(len(args)):
@@ -71,6 +124,11 @@ def main():
 
     password = generate_password(words, caps, numbers, symbols)
     print(password)
+
+    # # Example usage:
+    # original_string = "thisisateststring"
+    # modified_string = insert_number_or_symbol(original_string, '7')
+    # print(modified_string)
 
 if __name__ == "__main__":
     main()
