@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Aug  2 10:10:01 2023
-
-@author: tijana
-"""
-
-# shebang syntax for the python interpreter
 #!/usr/bin/env python3
 
 # imports all necessary packages
